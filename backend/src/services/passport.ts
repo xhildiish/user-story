@@ -1,17 +1,17 @@
-const passport = require('passport');
-const Github = require('passport-github2').Strategy;
-
 import mongoose from 'mongoose'
 import "../models/User"
 import keys from "../config/keys"
 import axios from "axios"
+
+const passport = require('passport');
+const Github = require('passport-github2').Strategy;
 
 const User = mongoose.model('user');
 
 passport.use(new Github({
     clientID: keys.githubClientID,
     clientSecret: keys.githubClientSecret,
-    callbackURL: 'http://localhost:3002/auth/github/callback',
+    callbackURL: 'http://localhost:3006/auth/github/callback',
     proxy: true
 }, (accessToken, refreshToken, profile, done) => {
 

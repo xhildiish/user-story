@@ -12,17 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const passport = require('passport');
-const Github = require('passport-github2').Strategy;
 const mongoose_1 = __importDefault(require("mongoose"));
 require("../models/User");
 const keys_1 = __importDefault(require("../config/keys"));
 const axios_1 = __importDefault(require("axios"));
+const passport = require('passport');
+const Github = require('passport-github2').Strategy;
 const User = mongoose_1.default.model('user');
 passport.use(new Github({
     clientID: keys_1.default.githubClientID,
     clientSecret: keys_1.default.githubClientSecret,
-    callbackURL: 'http://localhost:3002/auth/github/callback',
+    callbackURL: 'http://localhost:3006/auth/github/callback',
     proxy: true
 }, (accessToken, refreshToken, profile, done) => {
     User.findOne({ githubId: profile.id })
