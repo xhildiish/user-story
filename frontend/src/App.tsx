@@ -1,14 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
-function App() {
+import './App.css';
+import Login from "./components/Login";
+import Profile from "./components/Profile";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-   GoodMorning
-      </header>
-    </div>
+    <Router>
+       
+        {/* A <Routes> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Routes>
+        <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+    </Router>
   );
 }
 
