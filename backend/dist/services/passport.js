@@ -22,7 +22,10 @@ const User = mongoose_1.default.model('user');
 passport.use(new Github({
     clientID: keys_1.default.githubClientID,
     clientSecret: keys_1.default.githubClientSecret,
-    callbackURL: 'http://localhost:3006/auth/github/callback',
+    //callbackURL: 'http://localhost:3006/auth/github/callback', // LINUX
+    callbackURL: 'http://127.0.0.1:3006/auth/github/callback',
+    // So let's check the key and secreet likee you thought because they may be pointing to the wrong app in GitHub.
+    //callbackURL: 'http://userstory-backend-node:3006/auth/github/callback', // DOCKER
     proxy: true
 }, (accessToken, refreshToken, profile, done) => {
     User.findOne({ githubId: profile.id })

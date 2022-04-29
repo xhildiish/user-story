@@ -1,5 +1,8 @@
 export default {
-    githubClientID: 'a889508fd653ef067191' ,
-    githubClientSecret:'61871c16fb904af339ce9f9183ba3c197e1b2501',
-    mongoURI:'mongodb://localhost:27017/paperclicks'
+    githubClientID: '98ca361010dcb1a7f2d2' ,
+    githubClientSecret:'659b00a07a42085f8f7b1be29c9e9b7bb19457a7',
+    //mongoURI:'mongodb://localhost:27017/user-story' // LINUX
+    mongoURI:'mongodb://userstory-mongo:27017/user-story' // DOCKER
+    //mongoURI:'mongodb://127.0.0.1:27017/user-story' // WINDOWS
+
 }

@@ -11,13 +11,19 @@ const User = mongoose.model('user');
 
 const app = express();
 const port = process.env.PORT || 3006; // default port to listen
-const CLIENT_URL = "http://localhost:3000/profile"; //We'll redirect the user to this page after login
+//const CLIENT_URL = "http://localhost:3000/profile"; // LINUX - We'll redirect the user to this page after login
+const CLIENT_URL = "http://127.0.0.1:3000/profile"; // WINDOWS
+//const CLIENT_URL = "http://userstory-frontend-react:3000/profile"; // DOCKER
 
 mongoose.connect(keys.mongoURI);
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [ 
+      "http://localhost:3000", 
+      "http://127.0.0.1:3000", 
+      "http://userstory-frontend-react:3000" 
+    ], // DEV
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
@@ -27,6 +33,9 @@ app.use(cookieSession({
     name: 'github-auth-session',
     keys: ['key1', 'key2']
  }))
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // define a route handler for the default home page
 app.get( "/", ( req, res ) => {
@@ -74,10 +83,12 @@ app.get("/auth/github/callback", passport.authenticate("github"), (req, res) =>{
 })
 
 //logout api call
-app.get('/api/logout', (req, res) => {
-    req.session = null;
+app.get("/api/logout", (req, res) => {
+    res.session = null;
     req.logOut();
-    res.redirect('http://localhost:3000/login');
+    //res.redirect('http://localhost:3000/login'); // LINUX
+    res.redirect('http://127.0.0.1:3000/login'); // WINDOWS
+    //res.redirect('http://userstory-frontend-react:3000/login'); // DOCKER
 });
 
 
@@ -92,10 +103,7 @@ app.get("/user/profile/api", async (req, res) => {
   })
 
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 // start the Express server
 app.listen( port, () => {
-    console.log( `server started at http://localhost:${ port }` );
+    console.log( `server started on port ${ port }` );
 } );

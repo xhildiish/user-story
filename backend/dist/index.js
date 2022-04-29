@@ -22,10 +22,16 @@ require("./services/passport");
 const User = mongoose_1.default.model('user');
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3006; // default port to listen
-const CLIENT_URL = "http://localhost:3000/profile"; //We'll redirect the user to this page after login
+//const CLIENT_URL = "http://localhost:3000/profile"; // LINUX - We'll redirect the user to this page after login
+const CLIENT_URL = "http://127.0.0.1:3000/profile"; // WINDOWS
+//const CLIENT_URL = "http://userstory-frontend-react:3000/profile"; // DOCKER
 mongoose_1.default.connect(keys_1.default.mongoURI);
 app.use((0, cors_1.default)({
-    origin: "http://localhost:3000",
+    origin: [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://userstory-frontend-react:3000"
+    ],
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
 }));
@@ -33,6 +39,8 @@ app.use((0, cookie_session_1.default)({
     name: 'github-auth-session',
     keys: ['key1', 'key2']
 }));
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.session());
 // define a route handler for the default home page
 app.get("/", (req, res) => {
     res.send("Hello world!");
@@ -67,10 +75,12 @@ app.get("/auth/github/callback", passport_1.default.authenticate("github"), (req
     res.redirect(CLIENT_URL);
 });
 //logout api call
-app.get('/api/logout', (req, res) => {
-    req.session = null;
+app.get("/api/logout", (req, res) => {
+    res.session = null;
     req.logOut();
-    res.redirect('http://localhost:3000/login');
+    //res.redirect('http://localhost:3000/login'); // LINUX
+    res.redirect('http://127.0.0.1:3000/login'); // WINDOWS
+    //res.redirect('http://userstory-frontend-react:3000/login'); // DOCKER
 });
 app.get("/user/profile/api", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -81,10 +91,8 @@ app.get("/user/profile/api", (req, res) => __awaiter(void 0, void 0, void 0, fun
         console.log(error);
     }
 }));
-app.use(passport_1.default.initialize());
-app.use(passport_1.default.session());
 // start the Express server
 app.listen(port, () => {
-    console.log(`server started at http://localhost:${port}`);
+    console.log(`server started on port ${port}`);
 });
 //# sourceMappingURL=index.js.map
