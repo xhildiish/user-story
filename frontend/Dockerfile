@@ -1,7 +1,6 @@
 FROM node:latest AS base
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /usr/src
 COPY package*.json ./
 RUN npm install --silent
 
