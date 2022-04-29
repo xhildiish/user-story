@@ -10,8 +10,10 @@ const Profile = () => {
     const [user, setUser] =  useState<UserProps | undefined>(undefined);
 
     useEffect ( () => {
-        const getUserInfo = () => {
-            fetch( "http://localhost:3006/user/profile/api", {
+        const getUserInfo = () => { 
+            // fetch( "http://localhost:3006/user/profile/api", { // LINUX
+             fetch( "http://127.0.0.1:3006/user/profile/api", { // WINDOWS
+           // fetch("http://userstory-backend-node:3006/user/profile/api", { // DOCKER
                 method: "GET",
                 credentials: "include",
                 headers: {

@@ -21,7 +21,9 @@ const [starredRepos, setStarredRepos] = useState<ReposProps | undefined>(undefin
 
 
 const getUserRepos = () => {
-    fetch ("http://localhost:3006/user/profile/api", {
+   // fetch ("http://localhost:3006/user/profile/api", { // LINUX
+    fetch ("http://127.0.0.1:3006/user/profile/api", { // WINDOWS
+    //fetch ("http://userstory-backend-node:3006/user/profile/api", { // DOCKER
         method: "GET",
         credentials: "include",
         headers: {
@@ -35,6 +37,7 @@ const getUserRepos = () => {
         throw new Error('Authentication has been failed')
 
     }).then((data) => {
+        localStorage.setItem('repos', data.repos);
         setStarredRepos(data.repos)
     }).catch((err) => {
           console.log(err)
